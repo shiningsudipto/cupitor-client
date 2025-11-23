@@ -4,31 +4,40 @@
 
 This guide outlines the structure, UI features, component architecture, state-management patterns, validation logic, and integration flow for the **Cupitor Job Portal Frontend**, designed to pair cleanly with the existing REST API backend.
 
+### **Collections**
+
+All collections are defined in the `types/collections.ts` file.
+
 ---
 
 # **1. Public Pages**
 
 ### **Homepage**
+
 - Marketing header, featured jobs, and a global search bar.
 - Prominent categories and quick navigation sections.
 
 ### **Job Search & Listing**
+
 - Keyword search.
 - Filters: location, remote option, job type, salary range.
 - Sort by relevance, date, or salary.
 - Pagination or infinite scroll.
 
 ### **Job Details**
+
 - Complete job description.
 - Company preview card.
 - Persistent Apply and Save buttons.
 
 ### **Company Public Profile**
+
 - Company overview.
 - List of active job postings.
 - Ratings and reviews.
 
 ### **Authentication Pages**
+
 - Register, Login, Forgot Password.
 - Shared UI and Zod-driven validation.
 
@@ -37,24 +46,29 @@ This guide outlines the structure, UI features, component architecture, state-ma
 # **2. Candidate Pages (Authenticated)**
 
 ### **Dashboard**
+
 - Active applications.
 - Saved jobs.
 - Job suggestions.
 
 ### **Profile Editor**
+
 - Avatar, headline, location.
 - Skills and experience entries.
 
 ### **Resume Manager**
+
 - Upload multiple resumes.
 - Mark a primary resume.
 
 ### **Application Flow**
+
 - Apply with selected resume.
 - Optional cover letter.
 - Application status tracking.
 
 ### **Company Reviews**
+
 - Leave reviews after an interview or application process.
 
 ---
@@ -62,14 +76,17 @@ This guide outlines the structure, UI features, component architecture, state-ma
 # **3. Company Pages (Authenticated)**
 
 ### **Dashboard**
+
 - Overview of posted jobs.
 - Application activity and basic analytics.
 
 ### **Job Editor**
+
 - Create or update job listings.
 - Rich job description fields.
 
 ### **Applicant View**
+
 - Resume viewer.
 - Shortlist workflow.
 - Update application status.
@@ -81,6 +98,7 @@ This guide outlines the structure, UI features, component architecture, state-ma
 shadcn/ui components should be used as the foundation for creating consistent interfaces across Cupitor.
 
 ### **Core Components**
+
 - Search bar with debounced input and optional autosuggest.
 - Job card for concise job overviews with clear CTAs.
 - Company card for compact company previews.
@@ -93,6 +111,7 @@ shadcn/ui components should be used as the foundation for creating consistent in
 - Confirm dialogs for destructive or irreversible actions.
 
 ### **Design & UX Considerations**
+
 - Use optimistic UI patterns for save/bookmark and shortlist actions to keep interactions feeling immediate.
 - Show skeleton loaders for lists while fetching remote data.
 - Keep Apply and Save CTAs persistent and visible in the job detail view.
@@ -105,6 +124,7 @@ shadcn/ui components should be used as the foundation for creating consistent in
 Use React Hook Form together with Zod schemas to centralize and enforce validation logic. Keep schema definitions in a dedicated folder so they are easy to reuse across forms (auth, profile, job posting, application, review).
 
 Validation guidance:
+
 - Provide clear, user-friendly error messages.
 - Keep validations consistent between frontend and backend by mirroring shape and rules.
 - Validate files (size, type) on the client before upload to reduce failed requests.
@@ -116,6 +136,7 @@ Validation guidance:
 Adopt **Redux Toolkit (RTK)** for predictable global state and **RTK Query** for all server interactions, caching, and request management. Use RTK for UI state (modals, toast queue, global flags) and RTK Query for data fetching, caching, and mutations (jobs, companies, users, resumes, applications).
 
 Best practices:
+
 - Model server resources as RTK Query endpoints with tag-based invalidation to keep lists and details in sync.
 - Use selectors and memoization for derived UI state when necessary.
 - Keep ephemeral UI state in a small slice separate from server-driven data.
@@ -129,6 +150,7 @@ Security note: Prefer server-set httpOnly cookies for authentication when backen
 # **7. Authentication Flow**
 
 Frontend responsibilities for JWT-based auth:
+
 - Handle login and logout flows and reflect user state in the global store.
 - Include credentials in requests according to the backend's chosen strategy (headers or cookies).
 - Handle 401 responses gracefully, redirecting to login or showing contextual messages.
@@ -150,6 +172,7 @@ Security reminder: If possible, use httpOnly cookies to avoid exposing tokens to
 # **9. Apply-to-Job Flow**
 
 Recommend an in-place modal for the apply flow to reduce context switching. The apply flow should:
+
 - Allow selecting an existing resume or uploading a new one.
 - Include an optional cover letter field.
 - Prevent duplicate applications (visual cue and disabled CTA if already applied).
@@ -160,10 +183,12 @@ Recommend an in-place modal for the apply flow to reduce context switching. The 
 # **10. Saved Jobs & Shortlisting**
 
 Saved Jobs (Candidates):
+
 - Enable toggling saved state directly on job cards and job detail pages.
 - Apply optimistic UI updates and reconcile with server state via RTK Query invalidation.
 
 Shortlisting (Companies):
+
 - Provide one-click shortlist actions, optional notes for reviewers, and explicit confirmation for irreversible actions.
 
 ---
@@ -171,10 +196,12 @@ Shortlisting (Companies):
 # **11. Notifications & Real-Time Updates**
 
 Options and guidance:
+
 - Use Server-Sent Events (SSE) for simple, server-to-client updates (application status changes, new messages).
 - Use WebSockets if bi-directional communication or low-latency interactions are required.
 
 Implementation notes:
+
 - Establish the real-time connection after authentication.
 - Surface notifications via toasts and a notification center with persisted read/unread state.
 - Keep the real-time channel limited to relevant events to reduce noise and improve battery/network usage.
@@ -184,6 +211,7 @@ Implementation notes:
 # **12. Resume ATS Checker Integration**
 
 UX expectations:
+
 - Allow candidates to select or upload a resume to analyze.
 - Present an easy-to-read score and prioritized suggestions.
 - Offer actionable guidance rather than raw recommendations (e.g., highlight missing keywords, format tips).
@@ -218,4 +246,3 @@ UX expectations:
 # **End of Guide**
 
 This document has been updated to use Redux Toolkit and RTK Query for state management and server interactions. All embedded code examples have been removed; the guide now focuses on architecture, UX, and implementation patterns without code samples. The text has been proofread for clarity and consistency.
-
