@@ -76,7 +76,7 @@ export default function JobsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
+      <section className="bg-primary text-black py-16">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
             Find Your Perfect Job
@@ -149,7 +149,9 @@ export default function JobsPage() {
                 <Button variant="outline" disabled>
                   Previous
                 </Button>
-                <Button className="bg-purple-600 hover:bg-purple-700">1</Button>
+                <Button className="bg-primary text-black hover:bg-primary/90">
+                  1
+                </Button>
                 <Button variant="outline">2</Button>
                 <Button variant="outline">3</Button>
                 <Button variant="outline">Next</Button>

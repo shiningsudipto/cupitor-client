@@ -21,28 +21,18 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-20 md:py-32">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-40 left-1/2 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-        </div>
-
+      <section className="relative overflow-hidden bg-primary/5 py-20 md:py-32">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 shadow-sm">
-              <Sparkles className="w-4 h-4 text-purple-600" />
+              <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-gray-700">
                 Over 10,000+ jobs available
               </span>
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Find Your{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Dream Job
-              </span>
+              Find Your <span className="text-primary">Dream Job</span>
               <br />
               Today
             </h1>
@@ -55,19 +45,17 @@ export default function Home() {
             {/* Hero Stats */}
             <div className="flex flex-wrap justify-center gap-8 mb-12">
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-1">
-                  10K+
-                </div>
+                <div className="text-3xl font-bold text-primary mb-1">10K+</div>
                 <div className="text-sm text-gray-600">Active Jobs</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-pink-600 mb-1">5K+</div>
+                <div className="text-3xl font-bold text-secondary mb-1">
+                  5K+
+                </div>
                 <div className="text-sm text-gray-600">Companies</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-1">
-                  50K+
-                </div>
+                <div className="text-3xl font-bold text-accent mb-1">50K+</div>
                 <div className="text-sm text-gray-600">Candidates</div>
               </div>
             </div>
@@ -95,11 +83,11 @@ export default function Home() {
                 href={`/jobs?category=${encodeURIComponent(category)}`}
                 className="group"
               >
-                <div className="p-6 rounded-xl border-2 border-gray-200 hover:border-purple-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 text-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg mx-auto mb-3 flex items-center justify-center group-hover:from-purple-200 group-hover:to-pink-200 transition-colors">
-                    <Briefcase className="w-6 h-6 text-purple-600" />
+                <div className="p-6 rounded-xl border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-lg hover:-translate-y-1 text-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg mx-auto mb-3 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Briefcase className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold text-sm group-hover:text-purple-600 transition-colors">
+                  <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">
                     {category}
                   </h3>
                 </div>
@@ -162,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+      <section className="py-20 bg-primary text-black">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Take the Next Step?
@@ -175,7 +163,7 @@ export default function Home() {
             <Link href="/register">
               <Button
                 size="lg"
-                className="bg-white text-purple-600 hover:bg-gray-100 font-semibold text-lg px-8"
+                className="bg-white text-black hover:bg-gray-100 font-semibold text-lg px-8"
               >
                 Get Started For Free
               </Button>
@@ -184,7 +172,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white/10 font-semibold text-lg px-8"
+                className="border-2 border-black text-black hover:bg-black/10 font-semibold text-lg px-8"
               >
                 Browse Jobs
               </Button>
@@ -205,8 +193,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                <TrendingUp className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-primary rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <TrendingUp className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-xl font-bold mb-2">Verified Opportunities</h3>
               <p className="text-gray-600">
@@ -215,8 +203,8 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-secondary rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-xl font-bold mb-2">Top Companies</h3>
               <p className="text-gray-600">
@@ -225,8 +213,8 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                <Users className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-accent rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <Users className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-xl font-bold mb-2">Easy Application</h3>
               <p className="text-gray-600">

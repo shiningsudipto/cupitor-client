@@ -1,6 +1,7 @@
 export interface Company {
   id: string;
   name: string;
+  email: string;
   logo: string;
   description: string;
   industry: string;
@@ -25,6 +26,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-1",
     name: "TechCorp Solutions",
+    email: "techcorp@example.com",
     logo: "/company-logos/techcorp.png",
     description:
       "TechCorp Solutions is a leading technology company specializing in innovative software solutions for enterprise clients. We're passionate about building products that make a difference.",
@@ -63,6 +65,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-2",
     name: "Design Studio Inc",
+    email: "designstudio@example.com",
     logo: "/company-logos/design-studio.png",
     description:
       "Design Studio Inc is a creative agency that combines strategic thinking with beautiful design. We work with brands to create memorable digital experiences.",
@@ -101,6 +104,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-3",
     name: "CloudTech Systems",
+    email: "cloudtech@example.com",
     logo: "/company-logos/cloudtech.png",
     description:
       "CloudTech Systems builds cutting-edge cloud infrastructure solutions. Our platform powers thousands of applications worldwide with reliability and scalability.",
@@ -138,6 +142,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-4",
     name: "AI Innovations Lab",
+    email: "ai-innovations@example.com",
     logo: "/company-logos/ai-innovations.png",
     description:
       "AI Innovations Lab is at the forefront of artificial intelligence research and development. We're building the next generation of intelligent systems.",
@@ -175,6 +180,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-5",
     name: "Infrastructure Pro",
+    email: "infrastructure-pro@example.com",
     logo: "/company-logos/infrastructure-pro.png",
     description:
       "Infrastructure Pro provides enterprise-grade DevOps and infrastructure solutions. We help companies scale their operations with modern cloud technologies.",
@@ -211,6 +217,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-6",
     name: "AppCraft Studios",
+    email: "appcraft@example.com",
     logo: "/company-logos/appcraft.png",
     description:
       "AppCraft Studios creates award-winning mobile applications for iOS and Android. Our apps have been downloaded by millions of users worldwide.",
@@ -249,6 +256,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-7",
     name: "Growth Marketing Co",
+    email: "growth-marketing@example.com",
     logo: "/company-logos/growth-marketing.png",
     description:
       "Growth Marketing Co is a data-driven marketing agency helping companies achieve exponential growth through innovative digital strategies.",
@@ -286,6 +294,7 @@ export const dummyCompanies: Company[] = [
   {
     id: "comp-8",
     name: "Startup Ventures",
+    email: "startup-ventures@example.com",
     logo: "/company-logos/startup-ventures.png",
     description:
       "Startup Ventures is a fast-growing tech startup disrupting the traditional industry with innovative solutions. Join us on our exciting journey!",
