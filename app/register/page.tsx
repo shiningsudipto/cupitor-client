@@ -7,33 +7,111 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Briefcase, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
+import { Briefcase, Mail, Lock, Eye, EyeOff, User, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { registerCandidate, registerCompany } from "@/app/actions/auth";
+import { getAllCompanyTypes } from "@/app/actions/company";
+import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState<"candidate" | "company">(
     "candidate"
   );
+  const [companyTypes, setCompanyTypes] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
     companyName: "",
+    phone: "",
+    companyType: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (userType === "company") {
+      getAllCompanyTypes().then((res) => {
+        if (res?.success && Array.isArray(res.data)) {
+          setCompanyTypes(res.data);
+        }
+      });
+    }
+  }, [userType]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement registration logic with API
-    console.log("Register:", { ...formData, userType });
+
+    try {
+      let res;
+      if (userType === "candidate") {
+        const slug =
+          formData.name.toLowerCase().replace(/ /g, "-") + "-" + Date.now();
+        res = await registerCandidate({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone || `0000000000-${Date.now()}`, // Fallback if phone is optional in UI but required in backend
+          slug,
+        });
+      } else {
+        const slug =
+          formData.companyName.toLowerCase().replace(/ /g, "-") +
+          "-" +
+          Date.now();
+        const username = slug;
+
+        // Ensure companyType is selected
+        let typeId = formData.companyType;
+        if (!typeId && companyTypes.length > 0) {
+          typeId = companyTypes[0]._id;
+        }
+
+        if (!typeId) {
+          toast.error(
+            "Please select a company type (or wait for types to load)"
+          );
+          return;
+        }
+
+        res = await registerCompany({
+          name: formData.companyName,
+          email: formData.email,
+          password: formData.password,
+          username,
+          slug,
+          companyType: typeId,
+          // logo: ... (skip for now)
+        });
+      }
+
+      if (res.success) {
+        toast.success("Registration successful!");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error(res.message || "Registration failed");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center py-12 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4 pb-6">
           <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center">
+            <div className="w-16 h-16 bg-linear-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center">
               <Briefcase className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -76,8 +154,27 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
+                {/* Phone */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Phone Number</label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Input
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="pl-10"
+                      required
+                    />
+                  </div>
+                </div>
+
                 {/* Email */}
                 <div className="space-y-2">
+                  {/* ... existing email ... */}
                   <label className="text-sm font-medium">Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -125,7 +222,7 @@ export default function RegisterPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
+                  className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
                 >
                   Create Account
                 </Button>
@@ -153,6 +250,27 @@ export default function RegisterPage() {
                       required
                     />
                   </div>
+                </div>
+
+                {/* Company Type */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Company Type</label>
+                  <Select
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, companyType: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select industry" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {companyTypes.map((type) => (
+                        <SelectItem key={type._id} value={type._id}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Contact Name */}
@@ -222,7 +340,7 @@ export default function RegisterPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
+                  className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
                 >
                   Create Company Account
                 </Button>

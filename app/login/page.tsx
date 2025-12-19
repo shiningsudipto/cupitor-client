@@ -7,26 +7,55 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Briefcase, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { loginUser } from "@/app/actions/auth";
+import { useAuthStore } from "@/store/useAuthStore";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic with API
-    console.log("Login:", formData);
+    try {
+      const res = await loginUser(formData);
+      console.log(res);
+      if (res.success) {
+        // Store auth data in Zustand
+        login(res.data.user, res.data.accessToken);
+
+        // Set token in cookies
+        Cookies.set("cupitorToken", res.data.accessToken, {
+          expires: 7, // 7 days
+          secure: true, // only send over HTTPS
+          sameSite: "strict",
+        });
+
+        toast.success("Login successful!");
+        router.push("/"); // Redirect to home or dashboard
+        router.refresh(); // Refresh to update auth state in UI
+      } else {
+        toast.error(res.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center py-12 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4 pb-6">
           <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center">
+            <div className="w-16 h-16 bg-linear-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center">
               <Briefcase className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -96,7 +125,7 @@ export default function LoginPage() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
+              className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
             >
               Sign In
             </Button>

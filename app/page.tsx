@@ -4,7 +4,9 @@ import { SearchBar } from "@/components/search-bar";
 import { JobCard } from "@/components/job-card";
 import { CompanyCard } from "@/components/company-card";
 import { Badge } from "@/components/ui/badge";
-import { dummyJobs, dummyCompanies, jobCategories } from "@/constants";
+import { getAllJobs, getAllJobTypes } from "@/app/actions/job";
+import { getAllCompanies } from "@/app/actions/company";
+
 import {
   Briefcase,
   Building2,
@@ -14,9 +16,79 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export default function Home() {
-  const featuredJobs = dummyJobs.filter((job) => job.isFeatured).slice(0, 4);
-  const topCompanies = dummyCompanies.slice(0, 6);
+export default async function Home() {
+  let jobs: any[] = [];
+  let companies: any[] = [];
+  let jobTypes: any[] = [];
+
+  try {
+    const [jobsRes, companiesRes, jobTypesRes] = await Promise.all([
+      getAllJobs(),
+      getAllCompanies(),
+      getAllJobTypes(),
+    ]);
+
+    if (jobsRes?.success && Array.isArray(jobsRes.data)) {
+      jobs = jobsRes.data;
+    }
+    if (companiesRes?.success && Array.isArray(companiesRes.data)) {
+      companies = companiesRes.data;
+    }
+    if (jobTypesRes?.success && Array.isArray(jobTypesRes.data)) {
+      jobTypes = jobTypesRes.data;
+    }
+  } catch (err) {
+    console.error("Failed to fetch data:", err);
+  }
+
+  // Map server data to UI types
+  const featuredJobs = jobs
+    .map((job) => ({
+      id: job._id,
+      title: job.title,
+      company: job.companyId?.name || "Unknown Company",
+      companyId: job.companyId?._id || "",
+      location: job.companyId?.location || "Remote",
+      jobType: job.jobType?.label || "Full-time",
+      salaryRange: { min: 0, max: 0, currency: "USD" }, // Backend sends string, UI needs object. Placeholder.
+      postedDate: job.createdAt,
+      description: job.description,
+      skills: job.skills || [],
+      applicantsCount: 0,
+      remote: false,
+      isFeatured: true,
+      // Missing props defaults
+      requirements: [job.requirements || ""],
+      responsibilities: [],
+      benefits: [],
+      applicationDeadline: job.deadline || "",
+      education: "",
+      experienceLevel: job.experience_level || "Entry Level",
+      category: job.jobType?.label || "General",
+    }))
+    .slice(0, 4);
+
+  const topCompanies = companies
+    .map((comp) => ({
+      id: comp._id,
+      name: comp.name,
+      industry: comp.industry || "Tech",
+      location: comp.location || "Unknown",
+      size: comp.employee_len || "10-50",
+      activeJobs: 0,
+      rating: 0,
+      reviewCount: 0,
+      culture: ["Remote-first", "Innovative"],
+      logo: comp.logo,
+      email: comp.email || "",
+      description: "",
+      founded: 2020,
+      website: "",
+      socialLinks: { linkedin: "", twitter: "", facebook: "", instagram: "" },
+      benefits: [],
+      images: [],
+    }))
+    .slice(0, 6);
 
   return (
     <div className="flex flex-col">
@@ -77,10 +149,10 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {jobCategories.slice(0, 10).map((category) => (
+            {jobTypes.slice(0, 10).map((type: any) => (
               <Link
-                key={category}
-                href={`/jobs?category=${encodeURIComponent(category)}`}
+                key={type._id}
+                href={`/jobs?type=${encodeURIComponent(type.label)}`}
                 className="group"
               >
                 <div className="p-6 rounded-xl border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-lg hover:-translate-y-1 text-center">
@@ -88,7 +160,7 @@ export default function Home() {
                     <Briefcase className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">
-                    {category}
+                    {type.label}
                   </h3>
                 </div>
               </Link>
