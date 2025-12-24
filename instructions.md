@@ -68,6 +68,8 @@ app/
 
 **ALWAYS use React Hook Form for all forms in the application.**
 
+- Use form fields from components/customForm
+
 #### Form Validation Rules
 
 - Use Zod for schema validation
