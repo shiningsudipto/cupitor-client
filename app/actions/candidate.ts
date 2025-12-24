@@ -21,7 +21,7 @@ export async function getCandidateBySlug(slug: string) {
   });
 }
 
-export async function updateCandidate(id: string, data: any) {
+export async function updateCandidate(id: string, data: Partial<{ name: string; email: string; phone: string; city: string; address: string; skills: string[]; education: string; yearsOfExperience: string; github: string; linkedin: string }>) {
   return await fetchWithAuth(`/candidate/${id}`, {
     method: "PUT",
     body: JSON.stringify(data),

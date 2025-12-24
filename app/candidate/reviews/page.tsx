@@ -8,7 +8,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -83,7 +82,7 @@ export default function CandidateReviewsPage() {
     setIsReviewDialogOpen(false);
   };
 
-  const handleDeleteReview = (reviewId: string) => {
+  const handleDeleteReview = (_reviewId: string) => {
     // TODO: API call to delete review
     toast.success("Review deleted successfully!");
   };

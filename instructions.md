@@ -81,6 +81,8 @@ app/
 
 ## 🔌 API Integration
 
+- In types/collections.ts file, here all types of collections included.
+
 ### Server Actions (Required)
 
 **ALWAYS use Next.js Server Actions for API calls.**

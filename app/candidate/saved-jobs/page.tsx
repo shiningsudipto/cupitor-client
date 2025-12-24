@@ -4,9 +4,6 @@ import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,9 +22,7 @@ import {
   DollarSign,
   Clock,
   Search,
-  Filter,
   ArrowRight,
-  Trash2,
   Briefcase,
 } from "lucide-react";
 import Link from "next/link";
@@ -43,7 +38,7 @@ export default function CandidateSavedJobsPage() {
   const [filterType, setFilterType] = useState<string>("all");
   const [filterRemote, setFilterRemote] = useState<string>("all");
 
-  const handleUnsave = (savedJobId: string) => {
+  const handleUnsave = (_savedJobId: string) => {
     // TODO: API call to remove saved job
     toast.success("Job removed from saved list");
   };

@@ -1,8 +1,9 @@
 "use server";
 
 import { fetchWithAuth } from "./shared";
+import { TCandidateExperience } from "@/types/collections";
 
-export async function createCandidateExperience(data: any) {
+export async function createCandidateExperience(data: Omit<TCandidateExperience, "_id">) {
   return await fetchWithAuth("/candidateExperience", {
     method: "POST",
     body: JSON.stringify(data),
@@ -27,7 +28,7 @@ export async function getCandidateExperiencesByCandidate(candidateId: string) {
   });
 }
 
-export async function updateCandidateExperience(id: string, data: any) {
+export async function updateCandidateExperience(id: string, data: Partial<Omit<TCandidateExperience, "_id">>) {
   return await fetchWithAuth(`/candidateExperience/${id}`, {
     method: "PUT",
     body: JSON.stringify(data),

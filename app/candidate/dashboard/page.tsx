@@ -85,7 +85,7 @@ export default function CandidateDashboardPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, any> = {
+    const variants: Record<string, { variant: string; label: string }> = {
       under_review: { variant: "secondary", label: "Under Review" },
       shortlisted: { variant: "default", label: "Shortlisted" },
       rejected: { variant: "destructive", label: "Rejected" },

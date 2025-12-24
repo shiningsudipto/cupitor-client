@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -105,12 +104,12 @@ export default function CandidateResumesPage() {
     toast.success("Primary resume updated!");
   };
 
-  const handleDelete = (resumeId: string) => {
+  const handleDelete = (_resumeId: string) => {
     // TODO: API call to delete resume
     toast.success("Resume deleted successfully!");
   };
 
-  const handleAnalyze = (resumeId: string) => {
+  const handleAnalyze = (_resumeId: string) => {
     // TODO: Navigate to ATS checker or trigger analysis
     toast.info("Starting ATS analysis...");
   };
@@ -458,8 +457,8 @@ export default function CandidateResumesPage() {
             <li className="flex items-start">
               <CheckCircle2 className="h-4 w-4 mr-2 mt-0.5 text-green-600" />
               <span>
-                Use standard section headings like "Work Experience" and
-                "Education"
+                Use standard section headings like &ldquo;Work Experience&rdquo; and
+                &ldquo;Education&rdquo;
               </span>
             </li>
             <li className="flex items-start">

@@ -11,7 +11,7 @@ export interface TCompany {
   slug: string;
   email: string;
   logo?: string;
-  companyType: string;
+  companyType: TCompanyType;
   location?: string;
   employee_len?: string;
   password: string;
@@ -64,7 +64,7 @@ export interface TJobType {
 
 export interface TJob {
   companyId: string;
-  jobType: string;
+  jobType: TJobType;
   title: string;
   description: string;
   requirements: string;

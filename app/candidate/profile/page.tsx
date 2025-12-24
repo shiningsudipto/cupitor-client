@@ -723,7 +723,7 @@ export default function CandidateProfilePage() {
               <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>No work experience added yet</p>
               <p className="text-sm mt-1">
-                Click "Add Experience" to get started
+                Click &ldquo;Add Experience&rdquo; to get started
               </p>
             </div>
           )}
