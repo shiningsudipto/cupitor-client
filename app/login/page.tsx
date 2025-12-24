@@ -18,8 +18,8 @@ export default function LoginPage() {
   const { login } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "candidate@gmail.com",
+    password: "12345678",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -125,7 +125,7 @@ export default function LoginPage() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
+              className="w-full text-white bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 h-11"
             >
               Sign In
             </Button>
